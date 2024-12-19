@@ -1,0 +1,157 @@
+ <!-- Page Header Start -->
+ <div class="container-fluid page-header py-5">
+    <div class="container text-center py-5">
+        <h1 class="display-2 text-white mb-4 animated slideInDown">Services</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/service">Pages</a></li>
+                <li class="breadcrumb-item" aria-current="page">Services</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Service Details Section Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Sidebar: Services List -->
+            <div class="col-lg-4">
+                <div class="list-group shadow-sm">
+                    <a href="#mobile-development" class="list-group-item list-group-item-action active" id="mobile-tab">
+                        <i class="fa fa-mobile-alt me-2 text-secondary"></i> Mobile Development
+                    </a>
+                    <a href="#web-design" class="list-group-item list-group-item-action" id="web-tab">
+                        <i class="fa fa-laptop-code me-2 text-secondary"></i> Web Design
+                    </a>
+                    <a href="#it-consultation" class="list-group-item list-group-item-action" id="it-tab">
+                        <i class="fa fa-lightbulb me-2 text-secondary"></i> IT Consultation
+                    </a>
+                    <a href="#networking" class="list-group-item list-group-item-action" id="networking-tab">
+                        <i class="fa fa-network-wired me-2 text-secondary"></i> Networking
+                    </a>
+                    <a href="#education" class="list-group-item list-group-item-action" id="education-tab">
+                        <i class="fa fa-graduation-cap me-2 text-secondary"></i> Educational Programs
+                    </a>
+                    <a href="#digital-solutions" class="list-group-item list-group-item-action" id="digital-tab">
+                        <i class="fa fa-chart-line me-2 text-secondary"></i> Digital Solutions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Content: Service Details -->
+            <div class="col-lg-8">
+                <div id="service-content" class="shadow-sm p-4 bg-light rounded">
+                    <h3 class="text-primary">Mobile Development</h3>
+                    <p>
+                        We offer custom mobile app development for iOS and Android, providing seamless user experiences and cutting-edge features tailored to your needs.
+                    </p>
+                    <ul>
+                        <li>Native and hybrid app solutions</li>
+                        <li>UX/UI design optimized for mobile</li>
+                        <li>Performance and scalability</li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-secondary rounded-pill px-4 mt-3">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service Details Section End -->
+
+<script>
+    // JavaScript to handle active state and content updates
+    document.addEventListener("DOMContentLoaded", () => {
+        const services = {
+            "mobile-tab": {
+                title: "Mobile Development",
+                content: `
+                    <p>We offer custom mobile app development for iOS and Android, providing seamless user experiences and cutting-edge features tailored to your needs.</p>
+                    <ul>
+                        <li>Native and hybrid app solutions</li>
+                        <li>UX/UI design optimized for mobile</li>
+                        <li>Performance and scalability</li>
+                    </ul>
+                `
+            },
+            "web-tab": {
+                title: "Web Design",
+                content: `
+                    <p>Modern, responsive, and SEO-optimized websites that align with your brand and engage your audience effectively.</p>
+                    <ul>
+                        <li>Custom and responsive designs</li>
+                        <li>SEO-friendly development</li>
+                        <li>Brand-focused aesthetics</li>
+                    </ul>
+                `
+            },
+            "it-tab": {
+                title: "IT Consultation",
+                content: `
+                    <p>We provide strategic IT guidance and system integration to enhance your business efficiency and technology infrastructure.</p>
+                    <ul>
+                        <li>System optimization and upgrades</li>
+                        <li>Technology strategy development</li>
+                        <li>End-to-end IT support</li>
+                    </ul>
+                `
+            },
+            "networking-tab": {
+                title: "Networking",
+                content: `
+                    <p>Secure and optimized network solutions designed to meet the needs of modern businesses.</p>
+                    <ul>
+                        <li>Secure and reliable setups</li>
+                        <li>Network optimization and support</li>
+                        <li>Cloud integration</li>
+                    </ul>
+                `
+            },
+            "education-tab": {
+                title: "Educational Programs",
+                content: `
+                    <p>Skill-based education programs to empower individuals and foster innovation in the IT industry.</p>
+                    <ul>
+                        <li>Workshops and training sessions</li>
+                        <li>Real-world project learning</li>
+                        <li>Industry-certified courses</li>
+                    </ul>
+                `
+            },
+            "digital-tab": {
+                title: "Digital Solutions",
+                content: `
+                    <p>Advanced digital services including marketing, analytics, and business support to drive your growth.</p>
+                    <ul>
+                        <li>Digital marketing strategies</li>
+                        <li>Data analytics and reporting</li>
+                        <li>Automation and CRM integration</li>
+                    </ul>
+                `
+            },
+        };
+
+        const serviceLinks = document.querySelectorAll(".list-group-item");
+        const serviceContent = document.getElementById("service-content");
+
+        serviceLinks.forEach(link => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                // Remove active class from all links
+                serviceLinks.forEach(item => item.classList.remove("active"));
+                // Add active class to the clicked link
+                link.classList.add("active");
+                // Update content
+                const serviceData = services[link.id];
+                serviceContent.innerHTML = `
+                    <h3 class="text-primary">${serviceData.title}</h3>
+                    ${serviceData.content}
+                    <a href="contact.html" class="btn btn-secondary rounded-pill px-4 mt-3">Get Started</a>
+                `;
+            });
+        });
+    });
+</script>

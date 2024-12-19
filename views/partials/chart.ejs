@@ -1,0 +1,24 @@
+<div id="chatbot-container">
+    <button id="chatbot-btn" class="btn btn-primary rounded-circle">
+        <i class="fas fa-comment-dots text-white"></i>
+    </button>
+
+    <div id="chatbox" class="chatbox">
+        <div class="chatbox-header">
+            <h5 class="mb-0">Chat with Us</h5>
+            <button id="close-chat" class="btn-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="chatbox-body">
+            <div id="chatbox-content">
+                <p><strong>Bot:</strong> Hi! How can I assist you today?</p>
+            </div>
+            <div id="typing-indicator" style="display: none; font-style: italic; margin-top: 10px;">
+                Bot is typing...
+            </div>
+            <input type="text" id="chat-input" class="form-control" placeholder="Type your message..." />
+            <button id="send-btn" class="btn btn-primary btn-block mt-2">Send</button>
+        </div>
+    </div>
+</div>
+
+<audio id="notification-sound" src="audio/notification.mp3"></audio>

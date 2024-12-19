@@ -1,0 +1,124 @@
+  
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/forge/0.10.0/forge.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+
+        <script>
+            // Socket.io client-side initialization
+            const socket = io();
+            const chatbotBtn = document.getElementById('chatbot-btn');
+            const chatbox = document.getElementById('chatbox');
+            const closeChat = document.getElementById('close-chat');
+            const sendBtn = document.getElementById('send-btn');
+            const chatInput = document.getElementById('chat-input');
+            const chatboxContent = document.getElementById('chatbox-content');
+            
+            let userName = '';
+            let userEmail = '';
+            const userRole = 'user'; // Default role as user (change as needed)
+        
+            // Open the chatbox when the chatbot button is clicked
+            chatbotBtn.onclick = function () {
+                chatbox.classList.add('show-chatbox');
+                startChat();
+            };
+        
+            // Close the chatbox when the close button is clicked
+            closeChat.onclick = function () {
+                chatbox.classList.remove('show-chatbox');
+            };
+        
+            // Start the chat by asking for user name and email
+            function startChat() {
+                displayMessage('Bot', 'Hello! What is your name?');
+            }
+        
+            // Handle send button click
+            sendBtn.onclick = function () {
+                const userMessage = chatInput.value.trim();
+                if (userMessage) {
+                    const userMessageElement = document.createElement('p');
+                    userMessageElement.innerHTML = `<strong>You:</strong> ${userMessage}`;
+                    chatboxContent.appendChild(userMessageElement);
+                    chatInput.value = ''; // Clear the input field
+        
+                    // Emit the message event to the server
+                    socket.emit('message', { user: userName, email: userEmail, message: userMessage });
+        
+                    // Play sound notification
+                    new Audio('audio/notification.mp3').play();
+        
+                    // Handle user input for name and email
+                    if (!userName) {
+                        userName = userMessage;
+                        displayMessage('Bot', `Nice to meet you, ${userName}! What is your email address?`);
+                    } else if (!userEmail) {
+                        userEmail = userMessage;
+                        socket.emit('init', { user: userName, email: userEmail, role: userRole });
+                        displayMessage('Bot', 'Thank you for providing your information. How can I assist you today?');
+                    } else {
+                        // Check for predefined Q&A
+                        handlePredefinedQA(userMessage);
+                    }
+                }
+            };
+        
+            // Check if the user message matches any predefined question
+            function handlePredefinedQA(userMessage) {
+                const qa = qaDatabase.find(q => q.question.toLowerCase() === userMessage.toLowerCase());
+                if (qa) {
+                    displayMessage('Bot', qa.answer);
+                } else {
+                    // If no predefined answer is found, ask the bot to respond dynamically
+                    fetchBotAnswer(userMessage);
+                }
+            }
+        
+            // Display message in the chat
+            function displayMessage(role, message) {
+                const messageElement = document.createElement('p');
+                messageElement.innerHTML = `<strong>${role}:</strong> ${message}`;
+                chatboxContent.appendChild(messageElement);
+                chatboxContent.scrollTop = chatboxContent.scrollHeight; // Scroll to the bottom
+            }
+        
+            // Listen for new messages from the server
+            socket.on('newMessage', (data) => {
+                const botMessageElement = document.createElement('p');
+                botMessageElement.innerHTML = `<strong>${data.role === 'admin' ? 'Admin' : 'Bot'}:</strong> ${data.message}`;
+                chatboxContent.appendChild(botMessageElement);
+                chatboxContent.scrollTop = chatboxContent.scrollHeight; // Scroll to the bottom
+        
+                // Play sound notification
+                new Audio('audio/notification.mp3').play();
+            });
+        
+            // Listen for typing indicator
+            socket.on('typing', (data) => {
+                const typingElement = document.createElement('p');
+                typingElement.innerHTML = `<em>${data.user} is typing...</em>`;
+                chatboxContent.appendChild(typingElement);
+                chatboxContent.scrollTop = chatboxContent.scrollHeight;
+            });
+        
+            // Handle read message event
+            socket.on('readMessage', () => {
+                // Update UI for read message if needed
+            });
+        </script>
+        
+        
+        
+        
+        
+        
+        
